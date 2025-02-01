@@ -6,14 +6,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pages.LoginPage;
-import pages.MainPage;
-import pages.OrderPage;
-import pages.ProductParamsSelection;
+import pages.*;
 import utils.WebDriverSetup;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -25,6 +23,7 @@ public class ProductSelectionTest {
     LoginPage loginPage;
     ProductParamsSelection productParamsSelection;
     OrderPage orderPage;
+    OrderHistory orderHistory;
 
     String userName = "nbaaaiwjekdpkqppub@hthlm.com";
     String password = "0Z1m9A2P!";
@@ -74,10 +73,30 @@ public class ProductSelectionTest {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String filePath = "D:\\IT wiedza\\10 - kurs CodersLab\\testy\\FinalProject2\\screenshoots_" + timestamp + ".png";
         orderPage.takeScreenshot(filePath);
+
+        //get order reference value:
+        String orderValue = orderPage.getOrderReferenceValue();
+        System.out.println("Order ref is: " + orderValue);
+
+        //go to order history page:
+        OrderHistory orderHistory = new OrderHistory(driver, wait);
+        orderHistory.goToCustomerAccount();
+        Assert.assertTrue(orderHistory.clickToCustomerAccount.isDisplayed());
+        Assert.assertTrue(orderHistory.clickToOrderHistory.isDisplayed());
+
+        orderHistory.goToOrderHistoryPage();
+        //verify order reference number (value):
+        Assert.assertEquals(orderValue, orderHistory.verifyOrderOnTheHistoryList());
+
+
+        //to do:
+        //1. Check if the order is on the order's list - done
+        //2. Make verification of total price in order history
+        //3. Make price discount verification (before order confirmation) - check if price is -20% and check if selected quantity is 5 (assertion)
     }
 
-    @After
-    public void tearDown() {
-        driver.quit();
-    }
+//    @After
+//    public void tearDown() {
+//        driver.quit();
+//    }
 }

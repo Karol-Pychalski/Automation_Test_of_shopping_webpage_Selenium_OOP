@@ -45,6 +45,9 @@ public class OrderPage {
     @FindBy(xpath = "//button[contains(text(), 'Place order')]")
     private WebElement placeOrderButton;
 
+    @FindBy(id = "order-reference-value")
+    public WebElement orderReferenceValue;
+
     //adding selected product to basket:
     public void addProductToBasket() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -86,6 +89,16 @@ public class OrderPage {
             System.out.println("Screenshot saved at: " + filePath);
         } catch (IOException e) {
             System.err.println("Failed to save screenshot: " + e.getMessage());
+        }
+    }
+
+    public String getOrderReferenceValue() {
+        String entireText = orderReferenceValue.getText();
+        String[] onlyRefNumber = entireText.split("Order reference: ");
+        if (onlyRefNumber.length > 1) {
+            return onlyRefNumber[1].trim();
+        } else {
+            return "No order reference value";
         }
     }
 }
