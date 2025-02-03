@@ -1,6 +1,7 @@
 package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,6 +27,8 @@ public class OrderHistory {
     public WebElement orderHistoryReferenceRow;
 
     public void goToCustomerAccount() {
+        driver.switchTo().newWindow(WindowType.TAB);
+        driver.get("https://prod-kurs.coderslab.pl/index.php?controller=my-account");
         clickToCustomerAccount.click();
     }
 

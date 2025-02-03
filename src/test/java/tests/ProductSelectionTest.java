@@ -11,7 +11,6 @@ import utils.WebDriverSetup;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -65,7 +64,7 @@ public class ProductSelectionTest {
         orderPage.confirmAddress();
         orderPage.confirmDelivery();
         orderPage.paymentSelection();
-        Assert.assertTrue("Checkbox 'terms of service' nie został zaznaczony!",
+        Assert.assertTrue("The 'terms of service' checkbox was not checked.",
                 orderPage.conditionsAprroveCheckbox.isSelected());
         orderPage.placeOrder();
 
@@ -81,6 +80,7 @@ public class ProductSelectionTest {
         //go to order history page:
         OrderHistory orderHistory = new OrderHistory(driver, wait);
         orderHistory.goToCustomerAccount();
+        assertEquals(2, driver.getWindowHandles().size());
         Assert.assertTrue(orderHistory.clickToCustomerAccount.isDisplayed());
         Assert.assertTrue(orderHistory.clickToOrderHistory.isDisplayed());
 
@@ -90,13 +90,14 @@ public class ProductSelectionTest {
 
 
         //to do:
-        //1. Check if the order is on the order's list - done
-        //2. Make verification of total price in order history
-        //3. Make price discount verification (before order confirmation) - check if price is -20% and check if selected quantity is 5 (assertion)
+        //1. Switch to a new tab and go to user account -> done
+        //2. Check if the order is on the order's list -> done
+        //3. Make verification of total price in order history
+        //4. Make price discount verification (before order confirmation) - check if price is -20% and check if selected quantity is 5 (assertion)
     }
 
-//    @After
-//    public void tearDown() {
-//        driver.quit();
-//    }
+    @After
+    public void tearDown() {
+        driver.quit();
+    }
 }
